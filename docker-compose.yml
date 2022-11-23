@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  todo.web.mvc:
+    image: ${DOCKER_REGISTRY-}todowebmvc
+    build:
+      context: .
+      dockerfile: ToDo.Web.Mvc/Dockerfile
+    depends_on:
+      - todo.db
+    networks:
+      - TodoNetwork
+  
+  todo.db:
+    container_name: todo-db
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    environment:
+      - SA_PASSWORD=Infnet@123
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./sqlserver/data:/var/opt/mssql/data
+      - ./sqlserver/logs:/var/opt/mssql/logs
+    networks:
+      - TodoNetwork
+
+networks: 
+  TodoNetwork:
+    driver: bridge

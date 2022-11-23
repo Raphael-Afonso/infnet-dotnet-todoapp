@@ -33,9 +33,15 @@ namespace ToDo.Web.Mvc.Controllers
                 var item = new Item(createItemModel.Description);
                 await repository.AddAsync(item);
                 return RedirectToAction(nameof(Index));
-            }  
+            }
 
             return View(createItemModel);
+        }
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await repository.RemoveById(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

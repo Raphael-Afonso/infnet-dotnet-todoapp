@@ -20,7 +20,7 @@ namespace ToDo.Infra.Data.Repositories
             IEnumerable<Item> result;
             var query = "select * from Items";
             using (var con = new SqlConnection(connectionString))
-            {   
+            {
                 try
                 {
                     con.Open();
@@ -43,7 +43,7 @@ namespace ToDo.Infra.Data.Repositories
         {
             var query = "insert into Items(Id, Description, Done, CreatedAt) values(@Id, @Description, @Done, @CreatedAt)";
             using (var con = new SqlConnection(connectionString))
-            {    
+            {
                 try
                 {
                     con.Open();
@@ -78,6 +78,24 @@ namespace ToDo.Infra.Data.Repositories
                 finally
                 {
                     con.Close();
+                }
+            };
+        }
+
+        public async Task RemoveById(Guid id)
+        {
+            var query = "delete Items where id = @Id";
+            using (var con = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    var parameters = new {Id = id};
+                    con.Open();
+                    _ = await con.ExecuteAsync(query, parameters);
+                }
+                catch (Exception)
+                {
+                    throw;
                 }
             };
         }
