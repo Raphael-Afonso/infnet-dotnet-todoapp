@@ -89,7 +89,7 @@ namespace ToDo.Infra.Data.Repositories
             {
                 try
                 {
-                    var parameters = new {Id = id};
+                    var parameters = new { Id = id };
                     con.Open();
                     _ = await con.ExecuteAsync(query, parameters);
                 }
@@ -97,6 +97,30 @@ namespace ToDo.Infra.Data.Repositories
                 {
                     throw;
                 }
+            };
+        }
+
+        public async Task<Item> GetAsync(Guid id)
+        {
+            Item result;
+            var parameter = new { Id = id };
+            var query = "select * from Items where id = @Id";
+            using (var con = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    con.Open();
+                    result = await con.QueryFirstOrDefaultAsync<Item>(query, parameter);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    con.Close();
+                }
+                return result;
             };
         }
     }

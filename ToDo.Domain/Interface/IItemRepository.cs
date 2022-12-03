@@ -8,5 +8,6 @@ namespace ToDo.Domain.Interface
         Task AddAsync(Item item);
         Task EditAsync(Item item);
         Task RemoveById(Guid id);
+        Task<Item> GetAsync(Guid id);
     }
 }

@@ -5,7 +5,7 @@
 }
 
 <p>
-    <a asp-action="Create">Adicionar tarefa</a>
+    <a asp-action="Create" class="btn btn-success">Nova tarefa</a>
 </p>
 
 <table id="item" class="table">
@@ -14,7 +14,7 @@
             <th>Descrição</th>
             <th>Data de criação</th>
             <th>Status</th>
-            <th>Remover</th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
@@ -23,8 +23,8 @@
             <tr>
                 <td>@item.Description</td>
                 <td>@item.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
-                <td><input type="checkbox" @( item.Done ? "checked" : "" ) action="Update" /></td>
-                <td><a asp-action="Delete" asp-controller="Item" asp-route-id="@item.Id" class="btn btn-danger">Remover</a></td>
+                <td><input type="checkbox" disabled @( item.Done ? "checked" : "" ) action="" /></td>
+                <td><a asp-action="Edit" asp-route-id="@item.Id" asp-route-done="@item.Done" asp-route-description="@item.Description" class="btn btn-primary">Editar</a> | <a asp-action="Delete" asp-controller="Item" asp-route-id="@item.Id" class="btn btn-danger">Excluir</a></td>
             </tr>
         }
     </tbody>
